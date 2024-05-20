@@ -13,7 +13,6 @@ const io = new socket_io_1.Server(server, {
         origin: "*",
     },
 });
-const PORT = 8000;
 io.on("connection", (socket) => {
     socket.on("joinChat", (myUsers) => {
         const users = [myUsers[0].id, myUsers[1].id];
@@ -92,6 +91,6 @@ function getChatId(user1, user2) {
     // Generate a unique ID for the chat by concatenating the user IDs
     return [user1, user2].sort().join("-");
 }
-server.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
+server.listen(() => {
+    console.log(`Server listening`);
 });
