@@ -1,6 +1,6 @@
 import { createServer } from "http";
 import { Socket, Server as SocketIOServer } from "socket.io";
-import express from "express";
+import * as  express from "express";
 import { Chat, Message, PrismaClient } from "@prisma/client";
 
 // import { Message } from "@prisma/client"
