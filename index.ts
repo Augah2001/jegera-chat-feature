@@ -121,6 +121,6 @@ function getChatId(user1: number, user2: number) {
   return [user1, user2].sort().join("-");
 }
 
-server.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+server.listen( () => {
+  console.log(`Server listening`);
 });
