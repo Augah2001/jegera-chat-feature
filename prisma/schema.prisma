@@ -1,0 +1,110 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                   Int           @id @default(autoincrement())
+  email                String        @unique
+  firstName            String
+  lastName             String
+  password             String
+  authoizationKey      String?       @unique
+  type                 type
+  isOnline             Boolean
+  sentTransactions     Transaction[] @relation("TransactionToSender")
+  receivedTransactions Transaction[] @relation("TransactionToReceiver")
+  sentMessages         Message[]     @relation("MessageFrom")
+  receivedMessages     Message[]     @relation("MessageTo")
+  Chats                Chat[]
+}
+
+model Chat {
+  id String @id
+  users  User[]
+  messages Message[]
+}
+
+model Location {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  minutes     Int
+  coordinates Float[] @unique
+  houses      House[]
+}
+
+model Message {
+  id         Int      @id @default(autoincrement())
+  sender     User     @relation("MessageFrom", fields: [senderId], references: [id])
+  senderId   Int
+  receiver   User     @relation("MessageTo", fields: [receiverId], references: [id])
+  receiverId Int
+  body       String
+  time       DateTime @default(now())
+  sentByMe  Boolean
+  chat Chat @relation(fields: [chatId], references: [id])
+  chatId  String
+}
+
+model Transaction {
+  id         Int      @id @default(autoincrement())
+  sender     User     @relation("TransactionToSender", fields: [senderId], references: [id])
+  senderId   Int
+  receiver   User     @relation("TransactionToReceiver", fields: [receiverId], references: [id])
+  receiverId Int
+  amount     Int
+  time       DateTime @default(now())
+}
+
+enum status {
+  read
+  sent
+}
+
+enum type {
+  tenant
+  landlord
+}
+
+model House {
+  id              Int      @id @default(autoincrement())
+  location        Location @relation(fields: [locationId], references: [id])
+  locationId      Int
+  houseNumber     Int
+  street          String
+  description     String
+  price           Float
+  minutes         Int
+  capacity        Int
+  occupied        Boolean
+  perRoom         Int
+  gender          Gender
+  images          String[]
+  backGroundImage String
+  curfew          Int
+  ownerId         Int
+
+  services Service[]
+}
+
+model Service {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  houses House[]
+}
+
+enum Gender {
+  male
+  female
+  both
+}
