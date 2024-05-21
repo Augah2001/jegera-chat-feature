@@ -4,13 +4,15 @@ const http_1 = require("http");
 const socket_io_1 = require("socket.io");
 const express = require("express");
 const client_1 = require("@prisma/client");
+const cors = require("cors");
 // import { Message } from "@prisma/client"
 const prisma = new client_1.PrismaClient();
 const app = express();
+app.use(cors());
 const server = (0, http_1.createServer)(app);
 const io = new socket_io_1.Server(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: "*",
     },
 });
 io.on("connection", (socket) => {

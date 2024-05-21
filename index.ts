@@ -2,12 +2,14 @@ import { createServer } from "http";
 import { Socket, Server as SocketIOServer } from "socket.io";
 import * as  express from "express";
 import { Chat, Message, PrismaClient } from "@prisma/client";
+import * as cors from 'cors'
 
 // import { Message } from "@prisma/client"
 
 const prisma = new PrismaClient();
 
 const app = express();
+app.use(cors());
 const server = createServer(app);
 
 // type MessageType = {
