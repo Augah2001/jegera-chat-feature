@@ -9,7 +9,9 @@ import * as cors from 'cors'
 const prisma = new PrismaClient();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:3000"
+}));
 const server = createServer(app);
 
 // type MessageType = {
@@ -27,7 +29,7 @@ interface User {
   
 const io = new SocketIOServer(server, {
   cors: {
-    origin: "*",
+    origin: "http://localhost:3000",
   },
 });
 
