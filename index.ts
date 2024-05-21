@@ -1,5 +1,5 @@
 import { createServer } from "http";
-import { Socket, Server as SocketIOServer } from "socket.io";
+import { Socket} from "socket.io";
 import * as  express from "express";
 import { Chat, Message, PrismaClient } from "@prisma/client";
 import * as cors from 'cors'
@@ -24,14 +24,25 @@ interface User {
   id: number
 }
 
+import * as ios from 'socket.io'
+const io = new ios.Server({
+    allowEIO3: true,
+    cors: {
+        origin: true,
+        credentials: true
+    },
+})
 
   
   
-const io = new SocketIOServer(server, {
-  cors: {
-    origin: "http://localhost:3000",
-  },
-});
+// const io = new SocketIOServer(server, {
+//   cors: {
+//     origin: "*",
+//     methods: ["GET", "POST"]
+//   },
+// });
+
+
 
 
 

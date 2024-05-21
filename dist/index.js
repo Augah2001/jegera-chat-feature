@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const http_1 = require("http");
-const socket_io_1 = require("socket.io");
 const express = require("express");
 const client_1 = require("@prisma/client");
 const cors = require("cors");
@@ -12,11 +11,20 @@ app.use(cors({
     origin: "http://localhost:3000"
 }));
 const server = (0, http_1.createServer)(app);
-const io = new socket_io_1.Server(server, {
+const ios = require("socket.io");
+const io = new ios.Server({
+    allowEIO3: true,
     cors: {
-        origin: "http://localhost:3000",
+        origin: true,
+        credentials: true
     },
 });
+// const io = new SocketIOServer(server, {
+//   cors: {
+//     origin: "*",
+//     methods: ["GET", "POST"]
+//   },
+// });
 io.on("connection", (socket) => {
     socket.on("joinChat", (myUsers) => {
         const users = [myUsers[0].id, myUsers[1].id];
