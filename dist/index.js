@@ -8,7 +8,7 @@ const cors = require("cors");
 const prisma = new client_1.PrismaClient();
 const app = express();
 app.use(cors({
-    origin: "http://localhost:3000"
+    origin: "*"
 }));
 const server = (0, http_1.createServer)(app);
 const ios = require("socket.io");
