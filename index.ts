@@ -1,8 +1,9 @@
-import { createServer } from "http";
+import {createServer} from"http";
 import { Socket} from "socket.io";
 import * as  express from "express";
 import { Chat, Message, PrismaClient } from "@prisma/client";
 import * as cors from 'cors'
+const { Server } = require("socket.io");
 
 // import { Message } from "@prisma/client"
 
@@ -10,9 +11,9 @@ const prisma = new PrismaClient();
 
 const app = express();
 app.use(cors({
-  origin: "http://localhost:3000"
+  origin: "*"
 }));
-const server = createServer(app);
+
 
 // type MessageType = {
 //   body: string,
@@ -24,14 +25,13 @@ interface User {
   id: number
 }
 
-import * as ios from 'socket.io'
-const io = new ios.Server({
-    allowEIO3: true,
+const server = createServer(app);
+const io = new Server(server, {
     cors: {
-        origin: true,
+        origin: "*",
         credentials: true
-    },
-})
+    }
+});
 
   
   
@@ -47,11 +47,15 @@ const io = new ios.Server({
 
 
 io.on("connection", (socket: Socket) => {
- 
+
+  
+  
 
   socket.on("joinChat", (myUsers: [User, User]) => {
-    const users = [myUsers[0].id, myUsers[1].id]
 
+    
+    const users = [myUsers[0].id, myUsers[1].id]
+    console.log(users)
     console.log(myUsers)
     prisma.message
       .findMany<Message>({
@@ -96,7 +100,6 @@ io.on("connection", (socket: Socket) => {
 
   socket.on("message", (data) => {
     const { sender, receiver, body } = data;
-    console.log(data)
     receiver
     body
     sender
@@ -136,6 +139,6 @@ function getChatId(user1: number, user2: number) {
   return [user1, user2].sort().join("-");
 }
 
-server.listen(10000, () => {
-  console.log(`Server listening`);
+server.listen(8000, () => {
+  console.log(`Server listening on 8000`);
 });

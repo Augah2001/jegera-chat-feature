@@ -4,20 +4,19 @@ const http_1 = require("http");
 const express = require("express");
 const client_1 = require("@prisma/client");
 const cors = require("cors");
+const { Server } = require("socket.io");
 // import { Message } from "@prisma/client"
 const prisma = new client_1.PrismaClient();
 const app = express();
 app.use(cors({
-    origin: "http://localhost:3000"
+    origin: "*"
 }));
 const server = (0, http_1.createServer)(app);
-const ios = require("socket.io");
-const io = new ios.Server({
-    allowEIO3: true,
+const io = new Server(server, {
     cors: {
-        origin: true,
+        origin: "*",
         credentials: true
-    },
+    }
 });
 // const io = new SocketIOServer(server, {
 //   cors: {
@@ -28,6 +27,7 @@ const io = new ios.Server({
 io.on("connection", (socket) => {
     socket.on("joinChat", (myUsers) => {
         const users = [myUsers[0].id, myUsers[1].id];
+        console.log(users);
         console.log(myUsers);
         prisma.message
             .findMany({
@@ -68,7 +68,6 @@ io.on("connection", (socket) => {
     });
     socket.on("message", (data) => {
         const { sender, receiver, body } = data;
-        console.log(data);
         receiver;
         body;
         sender;
@@ -103,6 +102,6 @@ function getChatId(user1, user2) {
     // Generate a unique ID for the chat by concatenating the user IDs
     return [user1, user2].sort().join("-");
 }
-server.listen(10000, () => {
-    console.log(`Server listening`);
+server.listen(8000, () => {
+    console.log(`Server listening on 8000`);
 });
