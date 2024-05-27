@@ -11,7 +11,7 @@ const prisma = new PrismaClient();
 
 const app = express();
 app.use(cors({
-  origin: "*"
+  origin: ["*"]
 }));
 
 
@@ -26,21 +26,21 @@ interface User {
 }
 
 const server = createServer(app);
-const io = new Server(server, {
-    cors: {
-        origin: "*",
-        credentials: true
-    }
-});
+// const io = new Server(server, {
+//     cors: {
+//         origin: "https://jegera.onrender.com/",
+//         credentials: true
+//     }
+// });
 
   
   
-// const io = new SocketIOServer(server, {
-//   cors: {
-//     origin: "*",
-//     methods: ["GET", "POST"]
-//   },
-// });
+const io = new Server(server, {
+  cors: {
+    origin: ["*"],
+    methods: ["GET", "POST"]
+  },
+});
 
 
 
