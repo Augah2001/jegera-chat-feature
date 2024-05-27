@@ -139,6 +139,6 @@ function getChatId(user1: number, user2: number) {
   return [user1, user2].sort().join("-");
 }
 
-server.listen(10000, () => {
-  console.log(`Server listening on 1000`);
+server.listen(4871, () => {
+  console.log(`Server listening on 4871`);
 });
