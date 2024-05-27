@@ -8,9 +8,7 @@ const { Server } = require("socket.io");
 // import { Message } from "@prisma/client"
 const prisma = new client_1.PrismaClient();
 const app = express();
-app.use(cors({
-    origin: ["*"]
-}));
+app.use(cors());
 const server = (0, http_1.createServer)(app);
 // const io = new Server(server, {
 //     cors: {
@@ -20,7 +18,7 @@ const server = (0, http_1.createServer)(app);
 // });
 const io = new Server(server, {
     cors: {
-        origin: ["*"],
+        origin: "*",
         methods: ["GET", "POST"]
     },
 });
@@ -102,6 +100,6 @@ function getChatId(user1, user2) {
     // Generate a unique ID for the chat by concatenating the user IDs
     return [user1, user2].sort().join("-");
 }
-server.listen(4871, () => {
-    console.log(`Server listening on 4871`);
+server.listen(11000, () => {
+    console.log(`Server listening on 11000`);
 });
