@@ -9,21 +9,21 @@ const { Server } = require("socket.io");
 const prisma = new client_1.PrismaClient();
 const app = express();
 app.use(cors({
-    origin: "*"
+    origin: ["*"]
 }));
 const server = (0, http_1.createServer)(app);
+// const io = new Server(server, {
+//     cors: {
+//         origin: "https://jegera.onrender.com/",
+//         credentials: true
+//     }
+// });
 const io = new Server(server, {
     cors: {
-        origin: "*",
-        credentials: true
-    }
+        origin: ["*"],
+        methods: ["GET", "POST"]
+    },
 });
-// const io = new SocketIOServer(server, {
-//   cors: {
-//     origin: "*",
-//     methods: ["GET", "POST"]
-//   },
-// });
 io.on("connection", (socket) => {
     socket.on("joinChat", (myUsers) => {
         const users = [myUsers[0].id, myUsers[1].id];
@@ -102,6 +102,6 @@ function getChatId(user1, user2) {
     // Generate a unique ID for the chat by concatenating the user IDs
     return [user1, user2].sort().join("-");
 }
-server.listen(8000, () => {
-    console.log(`Server listening on 8000`);
+server.listen(10000, () => {
+    console.log(`Server listening on 1000`);
 });
